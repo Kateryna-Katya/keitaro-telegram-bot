@@ -1,0 +1,31 @@
+{
+  "name": "keitaro-telegram-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for Keitaro statistics",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kateryna-Katya/keitaro-telegram-bot.git"
+  },
+  "keywords": [
+    "telegram",
+    "keitaro",
+    "bot"
+  ],
+  "author": "Kateryna Voitenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kateryna-Katya/keitaro-telegram-bot/issues"
+  },
+  "homepage": "https://github.com/Kateryna-Katya/keitaro-telegram-bot#readme",
+  "dependencies": {
+    "axios": "^1.18.1",
+    "dotenv": "^17.4.2",
+    "telegraf": "^4.16.3"
+  }
+}

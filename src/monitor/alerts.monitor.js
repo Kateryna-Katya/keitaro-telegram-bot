@@ -61,13 +61,13 @@ export function startAlertsMonitor(bot) {
         if (diffRevenue > 0) {
           await bot.telegram.sendMessage(
             alert.telegramId,
-            `💰 <b>${geo} ${campaignName}</b> | DEP: +${diffRevenue}$ | total: ${currentRevenue}$ | conv: ${currentConversions} | ${formatTime()}`,
+            `💰 <b>${campaignName}</b> / ${diffRevenue}$ / ${stats.ts || '-'} / ${stats.group || '-'}`,
             { parse_mode: 'HTML' }
           );
         } else if (diffConversions > 0) {
           await bot.telegram.sendMessage(
             alert.telegramId,
-            `🟢 <b>${geo} ${campaignName}</b> | REG: +${diffConversions} | clicks: ${currentClicks} | conv: ${currentConversions} | ${formatTime()}`,
+            `🟢 <b>${campaignName}</b> / REG +${diffConversions} / ${stats.ts || '-'} / ${stats.group || '-'}`,
             { parse_mode: 'HTML' }
           );
         }

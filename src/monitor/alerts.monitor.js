@@ -57,7 +57,16 @@ export function startAlertsMonitor(bot) {
 
         const diffConversions = currentConversions - lastConversions;
         const diffRevenue = currentRevenue - lastRevenue;
-
+console.log('ALERT CHECK:', {
+  campaignId: alert.campaignId,
+  campaignName,
+  lastConversions,
+  currentConversions,
+  diffConversions,
+  lastRevenue,
+  currentRevenue,
+  diffRevenue,
+});
         if (diffRevenue > 0) {
           await bot.telegram.sendMessage(
             alert.telegramId,

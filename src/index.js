@@ -5,6 +5,17 @@ import { startAlertsMonitor } from './monitor/alerts.monitor.js';
 try {
   await bot.telegram.deleteWebhook({ drop_pending_updates: true });
 
+  await bot.telegram.setMyCommands([
+    {
+      command: 'start',
+      description: 'Open main menu',
+    },
+    {
+      command: 'id',
+      description: 'Show your Telegram ID',
+    },
+  ]);
+
   startAlertsMonitor(bot);
   logger.success('Alerts monitor started');
 

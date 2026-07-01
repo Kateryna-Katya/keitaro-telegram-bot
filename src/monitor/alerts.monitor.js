@@ -5,6 +5,18 @@ const CHECK_INTERVAL = 60_000;
 
 let isRunning = false;
 
+function getGeoFromCampaignName(name = '') {
+  const match = name.match(/^([A-Z]{2})\s*-/);
+  return match ? match[1] : '🌍';
+}
+
+function formatTime() {
+  return new Date().toLocaleTimeString('uk-UA', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
 export function startAlertsMonitor(bot) {
   setInterval(async () => {
     if (isRunning) return;
@@ -19,46 +31,48 @@ export function startAlertsMonitor(bot) {
         const stats = await getCampaignStats(alert.campaignId, 'today');
 
         if (!stats) {
+          alert.lastConversions ??= 0;
           alert.lastRevenue ??= 0;
           continue;
         }
 
-        const currentRevenue = Number(stats.sale_revenue || 0);
+        const campaignName =
+          alert.campaignName || stats.campaign || `Campaign #${alert.campaignId}`;
 
-        // Перша синхронізація — просто запам'ятовуємо поточний Revenue
+        const geo = getGeoFromCampaignName(campaignName);
+
+        const currentConversions = Number(stats.conversions || 0);
+        const currentRevenue = Number(stats.sale_revenue || 0);
+        const currentClicks = Number(stats.clicks || 0);
+
         if (!alert.initialized) {
+          alert.lastConversions = currentConversions;
           alert.lastRevenue = currentRevenue;
           alert.initialized = true;
           continue;
         }
 
+        const lastConversions = Number(alert.lastConversions || 0);
         const lastRevenue = Number(alert.lastRevenue || 0);
 
-        // Повідомляємо тільки якщо збільшився Revenue
-        if (currentRevenue > lastRevenue) {
-          const diffRevenue = currentRevenue - lastRevenue;
+        const diffConversions = currentConversions - lastConversions;
+        const diffRevenue = currentRevenue - lastRevenue;
 
+        if (diffRevenue > 0) {
           await bot.telegram.sendMessage(
             alert.telegramId,
-            `💰 <b>NEW REVENUE</b>
-
-📂 ${alert.campaignName || `Campaign #${alert.campaignId}`}
-
-➕ Revenue: +${diffRevenue} $
-
-💵 Total Revenue Today: ${currentRevenue} $
-
-🕒 ${new Date().toLocaleTimeString('uk-UA', {
-              hour: '2-digit',
-              minute: '2-digit',
-            })}`,
-            {
-              parse_mode: 'HTML',
-            }
+            `💰 <b>${geo} ${campaignName}</b> | DEP: +${diffRevenue}$ | total: ${currentRevenue}$ | conv: ${currentConversions} | ${formatTime()}`,
+            { parse_mode: 'HTML' }
+          );
+        } else if (diffConversions > 0) {
+          await bot.telegram.sendMessage(
+            alert.telegramId,
+            `🟢 <b>${geo} ${campaignName}</b> | REG: +${diffConversions} | clicks: ${currentClicks} | conv: ${currentConversions} | ${formatTime()}`,
+            { parse_mode: 'HTML' }
           );
         }
 
-        // Оновлюємо останній Revenue
+        alert.lastConversions = currentConversions;
         alert.lastRevenue = currentRevenue;
       }
 

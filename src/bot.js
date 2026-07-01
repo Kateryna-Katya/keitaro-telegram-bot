@@ -13,10 +13,11 @@ import { registerSettingsHandlers } from './handlers/settings.handler.js';
 
 export const bot = new Telegraf(config.telegram.token);
 
+registerIdCommand(bot); // /id доступна всім
+
 bot.use(authMiddleware);
 
 registerStartCommand(bot);
-registerIdCommand(bot);
 registerHelpCommand(bot);
 
 registerStatsHandlers(bot);

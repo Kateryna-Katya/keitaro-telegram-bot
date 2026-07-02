@@ -4,19 +4,9 @@
     "campaignId": 33,
     "campaignName": "AR - BlackAPP - PHX Copy #1",
     "enabled": true,
-    "lastConversions": 17,
-    "createdAt": "2026-07-01T08:30:52.256Z",
-    "lastRevenue": 17,
-    "initialized": true
-  },
-  {
-    "telegramId": 791028317,
-    "campaignId": 33,
-    "campaignName": "AR - BlackAPP - PHX Copy #1",
-    "enabled": true,
-    "lastConversions": 17,
-    "createdAt": "2026-07-01T09:04:24.144Z",
-    "lastRevenue": 17,
+    "lastConversions": 22,
+    "createdAt": "2026-07-02T08:12:19.857Z",
+    "lastRevenue": 37,
     "initialized": true
   }
 ]

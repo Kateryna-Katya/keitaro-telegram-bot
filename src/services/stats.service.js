@@ -1,7 +1,7 @@
 import { keitaroClient } from '../keitaro/client.js';
 
 function getRange(period) {
-  const timezone = 'Europe/Paris';
+  const timezone = 'Europe/Kyiv';
 
   if (period === 'today') {
     return { interval: 'today', timezone };
@@ -34,26 +34,44 @@ function getRange(period) {
 }
 
 export async function getCampaignStats(campaignId, period = 'today') {
-  const { data } = await keitaroClient.post('/report/build', {
-    range: getRange(period),
-    columns: ['campaign_id', 'campaign'],
-    metrics: [
-      'clicks',
-      'conversions',
-      'crs',
-      'sale_revenue',
-      'cost',
-      'profit_confirmed',
-      'roi_confirmed',
-    ],
-    filters: [
-      {
-        name: 'campaign_id',
-        operator: 'EQUALS',
-        expression: Number(campaignId),
-      },
-    ],
-  });
+  try {
+    const payload = {
+      range: getRange(period),
 
-  return data.rows?.[0] || null;
+      columns: ['campaign_id', 'campaign'],
+
+      metrics: [
+        'clicks',
+        'conversions',
+        'crs',
+        'sale_revenue',
+        'cost',
+        'profit_confirmed',
+        'roi_confirmed',
+      ],
+
+      filters: [
+        {
+          name: 'campaign_id',
+operator: 'EQUALS',
+expression: String(campaignId),
+        },
+      ],
+    };
+
+    console.log('KEITARO PAYLOAD:', JSON.stringify(payload, null, 2));
+
+    const { data } = await keitaroClient.post('/report/build', payload);
+
+    console.log('KEITARO RESPONSE:', JSON.stringify(data, null, 2));
+
+    return data.rows?.[0] || null;
+  } catch (error) {
+    console.error(
+      'KEITARO STATS ERROR:',
+      error.response?.data || error.message
+    );
+
+    return null;
+  }
 }

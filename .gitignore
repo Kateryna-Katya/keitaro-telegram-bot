@@ -15,5 +15,3 @@ Thumbs.db
 # VS Code
 .vscode/settings.json
 
-# Runtime data
-src/data/alerts.json

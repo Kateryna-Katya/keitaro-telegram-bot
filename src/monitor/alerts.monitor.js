@@ -68,19 +68,19 @@ async function checkAlerts(bot) {
         telegramId: alert.telegramId,
       });
 
-      if (diffRevenue > 0) {
-        await bot.telegram.sendMessage(
-          alert.telegramId,
-          `💰 <b>${campaignName}</b> / ${diffRevenue}$ / ${stats.ts || '-'} / ${stats.group || '-'}`,
-          { parse_mode: 'HTML' }
-        );
-      } else if (diffConversions > 0) {
-        await bot.telegram.sendMessage(
-          alert.telegramId,
-          `🟢 <b>${campaignName}</b> / REG +${diffConversions} / ${stats.ts || '-'} / ${stats.group || '-'}`,
-          { parse_mode: 'HTML' }
-        );
-      }
+if (diffRevenue > 0) {
+  await bot.telegram.sendMessage(
+    alert.telegramId,
+    `💰 <b>${campaignName}</b> / ${diffRevenue}$ / ${stats.sub_id_1 || '-'} / ${stats.sub_id_2 || '-'}`,
+    { parse_mode: 'HTML' }
+  );
+} else if (diffConversions > 0) {
+  await bot.telegram.sendMessage(
+    alert.telegramId,
+    `🟢 <b>${campaignName}</b> / REG +${diffConversions} / ${stats.sub_id_1 || '-'} / ${stats.sub_id_2 || '-'}`,
+    { parse_mode: 'HTML' }
+  );
+}
 
       alert.lastConversions = currentConversions;
       alert.lastRevenue = currentRevenue;

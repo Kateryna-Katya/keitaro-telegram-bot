@@ -35,29 +35,34 @@ function getRange(period) {
 
 export async function getCampaignStats(campaignId, period = 'today') {
   try {
-    const payload = {
-      range: getRange(period),
+   const payload = {
+  range: getRange(period),
 
-      columns: ['campaign_id', 'campaign'],
+columns: [
+  'campaign_id',
+  'campaign',
+  'sub_id_1',
+  'sub_id_2',
+],
 
-      metrics: [
-        'clicks',
-        'conversions',
-        'crs',
-        'sale_revenue',
-        'cost',
-        'profit_confirmed',
-        'roi_confirmed',
-      ],
+  metrics: [
+    'clicks',
+    'conversions',
+    'crs',
+    'sale_revenue',
+    'cost',
+    'profit_confirmed',
+    'roi_confirmed',
+  ],
 
-      filters: [
-        {
-          name: 'campaign_id',
-operator: 'EQUALS',
-expression: String(campaignId),
-        },
-      ],
-    };
+  filters: [
+    {
+      name: 'campaign_id',
+      operator: 'EQUALS',
+      expression: String(campaignId),
+    },
+  ],
+};
 
     console.log('KEITARO PAYLOAD:', JSON.stringify(payload, null, 2));
 
